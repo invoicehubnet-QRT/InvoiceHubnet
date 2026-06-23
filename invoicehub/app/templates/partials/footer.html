@@ -1,0 +1,55 @@
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <div class="navbar-logo">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <span>InvoiceHubNet</span>
+                </div>
+                <p class="footer-description">
+                    Create Professional Invoices in Seconds. Cloud-based invoice generation platform for freelancers, startups, and businesses.
+                </p>
+            </div>
+            
+            <div>
+                <h4 class="footer-title">Product</h4>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="{{ url_for('main.features') }}">Features</a></li>
+                    <li class="footer-link"><a href="{{ url_for('main.pricing') }}">Pricing</a></li>
+                    <li class="footer-link"><a href="{{ url_for('invoice.create') }}">Create Invoice</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="footer-title">Company</h4>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="{{ url_for('main.about') }}">About Us</a></li>
+                    <li class="footer-link"><a href="{{ url_for('main.contact') }}">Contact</a></li>
+                    <li class="footer-link"><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="footer-title">Legal</h4>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="{{ url_for('main.privacy') }}">Privacy Policy</a></li>
+                    <li class="footer-link"><a href="{{ url_for('main.terms') }}">Terms of Service</a></li>
+                    <li class="footer-link"><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="footer-copyright">
+                &copy; 2024 InvoiceHubNet. Built and maintained by <strong>Quick Red Tech Software Development Studio</strong>.
+            </p>
+            <div class="footer-social">
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>

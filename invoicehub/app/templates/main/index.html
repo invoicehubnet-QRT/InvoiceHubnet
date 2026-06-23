@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+
+{% block title %}InvoiceHubNet - Create Professional Invoices in Seconds{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-badge">
+            <i class="fas fa-bolt"></i>
+            <span>No signup required for free plan</span>
+        </div>
+        
+        <h1 class="hero-title">
+            Create <span class="text-gradient">Professional Invoices</span> in Seconds
+        </h1>
+        
+        <p class="hero-subtitle">
+            Generate beautiful, cloud-stored invoices instantly. Perfect for freelancers, startups, and growing businesses.
+        </p>
+        
+        <div class="hero-actions">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-rocket"></i> Get Started Free
+            </a>
+            <a href="{{ url_for('main.pricing') }}" class="btn btn-outline btn-lg">
+                View Pricing
+            </a>
+        </div>
+        
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-value">10K+</div>
+                <div class="hero-stat-label">Active Users</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">50K+</div>
+                <div class="hero-stat-label">Invoices Created</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">99.9%</div>
+                <div class="hero-stat-label">Uptime</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">4.9/5</div>
+                <div class="hero-stat-label">User Rating</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">Features</span>
+            <h2 class="section-title">Everything You Need to Create Perfect Invoices</h2>
+            <p class="section-description">
+                From professional templates to automated reminders, InvoiceHubNet has everything to streamline your billing workflow.
+            </p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card stagger-item">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="feature-title">Instant Generation</h3>
+                <p class="feature-description">
+                    Create professional invoices in seconds with our intuitive interface. No learning curve required.
+                </p>
+            </div>
+            
+            <div class="feature-card stagger-item">
+                <div class="feature-icon">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <h3 class="feature-title">Cloud Storage</h3>
+                <p class="feature-description">
+                    All your invoices are securely stored in the cloud. Access them anywhere, anytime.
+                </p>
+            </div>
+            
+            <div class="feature-card stagger-item">
+                <div class="feature-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h3 class="feature-title">PDF Export</h3>
+                <p class="feature-description">
+                    Download beautifully formatted PDF invoices that you can send to clients or print.
+                </p>
+            </div>
+            
+            <div class="feature-card stagger-item">
+                <div class="feature-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3 class="feature-title">Beautiful Templates</h3>
+                <p class="feature-description">
+                    Choose from a variety of professional invoice templates that match your brand.
+                </p>
+            </div>
+            
+            <div class="feature-card stagger-item">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="feature-title">Customer Management</h3>
+                <p class="feature-description">
+                    Store client information securely and reuse it for future invoices.
+                </p>
+            </div>
+            
+            <div class="feature-card stagger-item">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="feature-title">Analytics Dashboard</h3>
+                <p class="feature-description">
+                    Track your revenue, outstanding invoices, and business growth with insightful analytics.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="features-section" style="background: var(--gray-100);">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">How It Works</span>
+            <h2 class="section-title">Three Simple Steps to Invoice Success</h2>
+            <p class="section-description">
+                Creating professional invoices has never been easier.
+            </p>
+        </div>
+        
+        <div class="features-grid" style="max-width: 900px; margin: 0 auto;">
+            <div class="feature-card stagger-item" style="text-align: center;">
+                <div class="feature-icon" style="margin: 0 auto var(--space-4);">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h3 class="feature-title">1. Create Account</h3>
+                <p class="feature-description">
+                    Sign up for free in seconds. No credit card required.
+                </p>
+            </div>
+            
+            <div class="feature-card stagger-item" style="text-align: center;">
+                <div class="feature-icon" style="margin: 0 auto var(--space-4);">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <h3 class="feature-title">2. Add Details</h3>
+                <p class="feature-description">
+                    Enter your company info, customer details, and invoice items.
+                </p>
+            </div>
+            
+            <div class="feature-card stagger-item" style="text-align: center;">
+                <div class="feature-icon" style="margin: 0 auto var(--space-4);">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 class="feature-title">3. Send & Get Paid</h3>
+                <p class="feature-description">
+                    Download PDF, email directly, or share with clients.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="features-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">Testimonials</span>
+            <h2 class="section-title">Trusted by Thousands of Businesses</h2>
+            <p class="section-description">
+                See what our customers have to say about InvoiceHubNet.
+            </p>
+        </div>
+        
+        <div class="features-grid" style="max-width: 1000px; margin: 0 auto;">
+            <div class="card stagger-item">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="avatar" style="width: 48px; height: 48px; font-size: 16px; background: linear-gradient(135deg, #667eea, #764ba2);">AO</div>
+                    <div>
+                        <div class="font-semibold">Aisha Okonkwo</div>
+                        <div class="text-sm text-secondary">Freelance Designer</div>
+                    </div>
+                </div>
+                <p class="text-secondary">"InvoiceHubNet has transformed how I bill my clients. The professional templates make my business look even more established."</p>
+                <div class="mt-4" style="color: var(--accent-500);">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            
+            <div class="card stagger-item">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="avatar" style="width: 48px; height: 48px; font-size: 16px; background: linear-gradient(135deg, #f093fb, #f5576c);">KT</div>
+                    <div>
+                        <div class="font-semibold">Kofi Tetteh</div>
+                        <div class="text-sm text-secondary">Tech Startup Founder</div>
+                    </div>
+                </div>
+                <p class="text-secondary">"We manage multiple clients and InvoiceHubNet's customer management and analytics have been game-changers for our operations."</p>
+                <div class="mt-4" style="color: var(--accent-500);">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="features-section" style="background: linear-gradient(135deg, var(--primary-600), var(--secondary-600)); color: white;">
+    <div class="container" style="text-align: center;">
+        <h2 class="section-title" style="color: white;">Ready to Transform Your Invoicing?</h2>
+        <p class="section-description" style="color: rgba(255,255,255,0.9); max-width: 600px; margin: 0 auto var(--space-8);">
+            Join thousands of businesses that trust InvoiceHubNet for their billing needs. Start for free today.
+        </p>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-lg" style="background: white; color: var(--primary-600);">
+            <i class="fas fa-rocket"></i> Get Started Now
+        </a>
+    </div>
+</section>
+
+<style>
+.avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; }
+</style>
+{% endblock %}

@@ -1,0 +1,312 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Invoice - InvoiceHubNet{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+    {% include 'partials/sidebar.html' %}
+    
+    <main class="main-content" style="max-width: 1000px;">
+        <div class="dashboard-header">
+            <div>
+                <h1 class="dashboard-title">Create Invoice</h1>
+                <p class="text-secondary">Fill in the details to create a professional invoice.</p>
+            </div>
+        </div>
+        
+        <form method="POST" action="{{ url_for('invoice.create') }}" id="invoice-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <div class="grid" style="grid-template-columns: 2fr 1fr; gap: var(--space-6);">
+                <!-- Left Column -->
+                <div>
+                    <!-- Invoice Details -->
+                    <div class="card mb-6">
+                        <div class="card-header">
+                            <h3 class="card-title">Invoice Details</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid" style="grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+                                <div class="form-group">
+                                    <label class="form-label">Invoice Number</label>
+                                    <input type="text" class="form-input" value="{{ invoice_number }}" disabled>
+                                    <input type="hidden" name="invoice_number" value="{{ invoice_number }}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Currency</label>
+                                    <select name="currency" id="currency" class="form-select">
+                                        {% for curr in currencies %}
+                                        <option value="{{ curr }}" {% if curr == 'NGN' %}selected{% endif %}>{{ curr }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Invoice Date</label>
+                                    <input type="date" name="invoice_date" class="form-input" value="{{ invoice_date.strftime('%Y-%m-%d') }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Due Date</label>
+                                    <input type="date" name="due_date" class="form-input" value="{{ due_date.strftime('%Y-%m-%d') }}" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Customer Info -->
+                    <div class="card mb-6">
+                        <div class="card-header">
+                            <h3 class="card-title">Bill To</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Select Customer</label>
+                                <select name="customer_id" class="form-select" id="customer-select">
+                                    <option value="">-- Select a customer --</option>
+                                    {% for customer in customers %}
+                                    <option value="{{ customer.id }}" data-name="{{ customer.name }}" data-email="{{ customer.email }}" data-address="{{ customer.address }}">
+                                        {{ customer.name }}{% if customer.company_name %} ({{ customer.company_name }}){% endif %}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <p class="text-sm text-muted mb-4">Or add new customer info below:</p>
+                            <div class="form-group">
+                                <label class="form-label">Customer Name</label>
+                                <input type="text" class="form-input" placeholder="Customer name" data-preview="#customer-name-preview">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Customer Email</label>
+                                <input type="email" class="form-input" placeholder="customer@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Customer Address</label>
+                                <textarea class="form-textarea" placeholder="Customer address"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Invoice Items -->
+                    <div class="card mb-6">
+                        <div class="card-header flex justify-between items-center">
+                            <h3 class="card-title">Invoice Items</h3>
+                            <button type="button" id="add-item-btn" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Add Item
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="invoice-items">
+                                <!-- Item Template -->
+                                <div class="invoice-item" style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg); margin-bottom: var(--space-4);">
+                                    <div class="grid" style="grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: var(--space-3); align-items: end;">
+                                        <div class="form-group" style="margin-bottom: 0;">
+                                            <label class="form-label">Item</label>
+                                            <input type="text" name="item_name" class="form-input item-name" placeholder="Service or product name" required>
+                                        </div>
+                                        <div class="form-group" style="margin-bottom: 0;">
+                                            <label class="form-label">Qty</label>
+                                            <input type="number" name="item_quantity" class="form-input item-quantity" value="1" min="1" required>
+                                        </div>
+                                        <div class="form-group" style="margin-bottom: 0;">
+                                            <label class="form-label">Unit Price</label>
+                                            <input type="number" name="item_price" class="form-input item-price" value="0" step="0.01" min="0" required>
+                                        </div>
+                                        <div class="form-group" style="margin-bottom: 0;">
+                                            <label class="form-label">Total</label>
+                                            <div class="form-input item-total" style="background: var(--gray-100); font-weight: 600;">₦0.00</div>
+                                        </div>
+                                        <button type="button" class="btn btn-danger btn-icon remove-item" title="Remove item">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notes & Terms -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Additional Information</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Notes</label>
+                                <textarea name="notes" class="form-textarea" placeholder="Payment instructions, thank you message, etc.">Thank you for your business!</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Terms & Conditions</label>
+                                <textarea name="terms" class="form-textarea" placeholder="Payment terms and conditions">Payment is due within 30 days of invoice date.</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Summary -->
+                <div>
+                    <div class="card sticky" style="top: 100px;">
+                        <div class="card-header">
+                            <h3 class="card-title">Invoice Summary</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="flex justify-between mb-3">
+                                <span class="text-secondary">Subtotal</span>
+                                <span id="subtotal" class="font-semibold">₦0.00</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-secondary">Discount (%)</span>
+                                <input type="number" id="discount_percent" name="discount_percent" class="form-input" style="width: 80px; padding: 0.5rem;" value="0" min="0" max="100">
+                            </div>
+                            <div class="flex justify-between mb-3">
+                                <span class="text-secondary">Discount Amount</span>
+                                <span id="discount_amount" class="font-semibold">-₦0.00</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-secondary">Tax (%)</span>
+                                <input type="number" id="tax_percent" name="tax_percent" class="form-input" style="width: 80px; padding: 0.5rem;" value="0" min="0" max="100">
+                            </div>
+                            <div class="flex justify-between mb-3">
+                                <span class="text-secondary">Tax Amount</span>
+                                <span id="tax_amount" class="font-semibold">₦0.00</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-secondary">Shipping</span>
+                                <input type="number" id="shipping_amount" name="shipping_amount" class="form-input" style="width: 100px; padding: 0.5rem;" value="0" min="0" step="0.01">
+                            </div>
+                            <hr style="margin: var(--space-4) 0; border: none; border-top: 2px solid var(--border-color);">
+                            <div class="flex justify-between">
+                                <span class="text-lg font-bold">Total</span>
+                                <span id="grand_total" class="text-lg font-bold text-gradient">₦0.00</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-lg w-full">
+                                <i class="fas fa-save"></i> Create Invoice
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+.sticky { position: sticky; }
+.invoice-item { border: 1px solid var(--border-color); }
+#invoice-items { min-height: 100px; }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Invoice item template
+const itemTemplate = `
+<div class="invoice-item" style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg); margin-bottom: var(--space-4); border: 1px solid var(--border-color);">
+    <div class="grid" style="grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: var(--space-3); align-items: end;">
+        <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Item</label>
+            <input type="text" name="item_name" class="form-input item-name" placeholder="Service or product name" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Qty</label>
+            <input type="number" name="item_quantity" class="form-input item-quantity" value="1" min="1" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Unit Price</label>
+            <input type="number" name="item_price" class="form-input item-price" value="0" step="0.01" min="0" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Total</label>
+            <div class="form-input item-total" style="background: var(--gray-100); font-weight: 600;">₦0.00</div>
+        </div>
+        <button type="button" class="btn btn-danger btn-icon remove-item" title="Remove item">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+</div>
+`;
+
+// Add item
+document.getElementById('add-item-btn').addEventListener('click', function() {
+    const container = document.getElementById('invoice-items');
+    const div = document.createElement('div');
+    div.innerHTML = itemTemplate;
+    container.appendChild(div.firstElementChild);
+    initItemEvents();
+});
+
+// Remove item
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.remove-item')) {
+        const items = document.querySelectorAll('.invoice-item');
+        if (items.length > 1) {
+            e.target.closest('.invoice-item').remove();
+            calculateTotals();
+        } else {
+            InvoiceHubNet.Toast.warning('At least one item is required.');
+        }
+    }
+});
+
+// Calculate totals
+function calculateTotals() {
+    const items = document.querySelectorAll('.invoice-item');
+    let subtotal = 0;
+    const currency = document.getElementById('currency')?.value || 'NGN';
+    
+    items.forEach(item => {
+        const quantity = parseFloat(item.querySelector('.item-quantity')?.value) || 0;
+        const unitPrice = parseFloat(item.querySelector('.item-price')?.value) || 0;
+        const total = quantity * unitPrice;
+        
+        const totalEl = item.querySelector('.item-total');
+        if (totalEl) {
+            totalEl.textContent = formatCurrency(total, currency);
+        }
+        
+        subtotal += total;
+    });
+    
+    const discountPercent = parseFloat(document.getElementById('discount_percent')?.value) || 0;
+    const taxPercent = parseFloat(document.getElementById('tax_percent')?.value) || 0;
+    const shipping = parseFloat(document.getElementById('shipping_amount')?.value) || 0;
+    
+    const discountAmount = subtotal * (discountPercent / 100);
+    const taxAmount = (subtotal - discountAmount) * (taxPercent / 100);
+    const total = subtotal - discountAmount + taxAmount + shipping;
+    
+    document.getElementById('subtotal').textContent = formatCurrency(subtotal, currency);
+    document.getElementById('discount_amount').textContent = `-${formatCurrency(discountAmount, currency)}`;
+    document.getElementById('tax_amount').textContent = formatCurrency(taxAmount, currency);
+    document.getElementById('grand_total').textContent = formatCurrency(total, currency);
+}
+
+function formatCurrency(amount, currency) {
+    const symbols = { 'NGN': '₦', 'USD': '$', 'EUR': '€', 'GBP': '£' };
+    const symbol = symbols[currency] || '₦';
+    return `${symbol}${parseFloat(amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+function initItemEvents() {
+    document.querySelectorAll('.invoice-item').forEach(item => {
+        const quantityInput = item.querySelector('.item-quantity');
+        const priceInput = item.querySelector('.item-price');
+        
+        quantityInput?.addEventListener('input', calculateTotals);
+        priceInput?.addEventListener('input', calculateTotals);
+    });
+}
+
+// Init events
+initItemEvents();
+document.getElementById('discount_percent')?.addEventListener('input', calculateTotals);
+document.getElementById('tax_percent')?.addEventListener('input', calculateTotals);
+document.getElementById('shipping_amount')?.addEventListener('input', calculateTotals);
+document.getElementById('currency')?.addEventListener('change', calculateTotals);
+
+// Initial calculation
+calculateTotals();
+</script>
+{% endblock %}

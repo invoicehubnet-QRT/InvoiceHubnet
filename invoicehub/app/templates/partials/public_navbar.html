@@ -1,0 +1,29 @@
+<nav class="navbar">
+    <div class="navbar-container">
+        <a href="{{ url_for('main.index') }}" class="navbar-brand">
+            <div class="navbar-logo">
+                <i class="fas fa-file-invoice"></i>
+            </div>
+            <span>InvoiceHubNet</span>
+        </a>
+        
+        <ul class="navbar-menu">
+            <li><a href="{{ url_for('main.features') }}" class="navbar-link">Features</a></li>
+            <li><a href="{{ url_for('main.pricing') }}" class="navbar-link">Pricing</a></li>
+            <li><a href="{{ url_for('main.about') }}" class="navbar-link">About</a></li>
+            <li><a href="{{ url_for('main.contact') }}" class="navbar-link">Contact</a></li>
+        </ul>
+        
+        <div class="navbar-actions">
+            <button class="btn btn-ghost btn-icon" data-theme-toggle title="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-ghost">Log in</a>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Get Started</a>
+        </div>
+        
+        <button class="navbar-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>

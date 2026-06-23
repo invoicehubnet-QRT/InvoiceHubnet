@@ -1,2 +1,2 @@
-# InvoiceHub
+# InvoiceHubNet
 An invoice generator 
